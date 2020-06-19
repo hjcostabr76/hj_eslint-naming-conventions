@@ -162,7 +162,7 @@ export function eslintNamingConventions(settings?: SettingsTP): ConfigTP[] {
         {
             selector: 'enum',
             format: ['PascalCase'],
-            suffix: ['Enum']
+            // suffix: vars.enumSuffixes,
         },
         {
             selector: 'enumMember',
@@ -180,7 +180,7 @@ export function eslintNamingConventions(settings?: SettingsTP): ConfigTP[] {
         {
             selector: 'interface',
             format: ['PascalCase'],
-            prefix: ['I'],
+            // prefix: vars.interfacePrefixes,
         },
 
         // type
@@ -212,7 +212,7 @@ function getVars(generalSettings?: GeneralSettingsTP): VarsTP {
     const arraySuffixesUC = parseStringList(generalSettings?.arraySuffixesUC ?? [])
 
     return {
-        
+
         typeSuffixes: generalSettings?.typeSuffixes ?? [],
         classSuffixes: generalSettings?.classSuffixes ?? [],
         typeSuffixesGenerics: generalSettings?.typeSuffixesGenerics ?? [],
@@ -228,3 +228,14 @@ function getVars(generalSettings?: GeneralSettingsTP): VarsTP {
         arraySuffixes: `${arraySuffixesLC}|${arraySuffixesUC}`,
     }
 }
+
+// const DEFAULT_SETTINGS: GeneralSettingsTP = {
+//     typeSuffixes: ['TP'],
+//     // enumSuffixes: ['Enum'],
+//     // interfacePrefixes: ['I'],
+//     typeSuffixesGenerics: ['GTP'],
+//     arraySuffixesUC: ['S', 'ARRAY', 'LIST'],
+//     arraySuffixesLC: ['s', 'array', 'Array', 'List'],
+//     booleanPrefixesUC: ['IS', 'ENABLE', 'REQUIRE', 'FORCE', 'DONT'],
+//     booleanPrefixesLC: ['is', 'should', 'must', 'can', 'have', 'has', 'did', 'dont', 'will', 'enable', 'require', 'force'],
+// }

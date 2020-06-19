@@ -26,6 +26,8 @@ type GeneralForRegexTP = {
 }
 
 type GeneralForArrayTP = {
+    // interfacePrefixes?: string[],
+    // enumSuffixes?: string[],
     classSuffixes?: string[],
     typeSuffixes?: string[],
     typeSuffixesGenerics?: string[],

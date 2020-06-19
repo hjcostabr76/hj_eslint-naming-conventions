@@ -2,7 +2,8 @@
     "name": "eslint-typescript-naming-convention",
     "description": "Builds config for @typescript-eslint/naming-convention rule",
     "author": "hjcostabr76 <hjcosta.dev@gmail.com>",
-    "main": "index.js",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
     "version": "1.0.0",
     "type": "module",
     "scripts": {
@@ -20,6 +21,6 @@
       "typescript",
       "naming-convention"
     ],
-    "files”": ["lib/**/*"],
+    "files”": ["dist/**/*"],
     "license": "ISC"
 }
