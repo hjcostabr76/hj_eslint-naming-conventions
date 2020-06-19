@@ -1,0 +1,25 @@
+{
+    "name": "eslint-typescript-naming-convention",
+    "description": "Builds config for @typescript-eslint/naming-convention rule",
+    "author": "hjcostabr76 <hjcosta.dev@gmail.com>",
+    "main": "index.js",
+    "version": "1.0.0",
+    "type": "module",
+    "scripts": {
+        "test": "echo \"Error: So far, not good... There ain't no tests yet :(\"",
+        "build": "npx tsc"
+    },
+    "devDependencies": {
+        "@types/node": "^14.0.5",
+        "ts-node": "^8.10.1",
+        "typescript": "^3.9.3"
+    },
+    "keywords": [
+      "eslint",
+      "lint",
+      "typescript",
+      "naming-convention"
+    ],
+    "files”": ["lib/**/*"],
+    "license": "ISC"
+}
