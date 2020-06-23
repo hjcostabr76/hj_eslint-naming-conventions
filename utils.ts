@@ -42,6 +42,9 @@ export function getConfigs(settings?: Partial<SettingsTP>): ConfigTP[] {    // e
         {
             selector: 'function',
             format: ['camelCase'],
+            custom: vars.functionPrefixes
+                ? { match: true, regex: `^[${vars.functionPrefixes}]` }
+                : undefined,
         },
 
         // parametro
@@ -150,7 +153,7 @@ export function getConfigs(settings?: Partial<SettingsTP>): ConfigTP[] {    // e
         {
             selector: 'enum',
             format: ['PascalCase'],
-            // suffix: vars.enumSuffixes,
+            suffix: vars.enumSuffixes,
         },
         {
             selector: 'enumMember',
@@ -168,7 +171,7 @@ export function getConfigs(settings?: Partial<SettingsTP>): ConfigTP[] {    // e
         {
             selector: 'interface',
             format: ['PascalCase'],
-            // prefix: vars.interfacePrefixes,
+            prefix: vars.interfacePrefixes,
         },
 
         // type
