@@ -1,5 +1,5 @@
 {
-    "name": "eslint-typescript-naming-convention",
+    "name": "eslint-ts-naming-convention",
     "description": "Builds config for @typescript-eslint/naming-convention rule",
     "author": "hjcostabr76 <hjcosta.dev@gmail.com>",
     "main": "dist/index.js",
