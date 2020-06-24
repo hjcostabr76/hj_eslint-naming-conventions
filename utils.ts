@@ -178,13 +178,13 @@ export function getConfigs(settings?: Partial<SettingsTP>): ConfigTP[] {    // e
         {
             selector: 'typeAlias',
             format: ['PascalCase'],
-            suffix: vars.typeSuffixesGenerics,
+            suffix: vars.typeSuffixes,
             leadingUnderscore: 'forbid'
         },
         {
             selector: 'typeParameter',
             format: ['PascalCase'],
-            suffix: vars.typeSuffixes,
+            suffix: vars.typeSuffixesGenerics,
             leadingUnderscore: 'forbid'
         },
 
