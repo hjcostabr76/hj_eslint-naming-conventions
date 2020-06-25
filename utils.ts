@@ -26,16 +26,16 @@ export function getConfigs(settings?: Partial<SettingsTP>): ConfigTP[] {    // e
             types: ['boolean'],
             format: ['camelCase', 'PascalCase', 'UPPER_CASE'],
             custom: vars.booleanPrefixes
-                ? { match: true, regex: `^[${vars.booleanPrefixes}]` }
+                ? { match: true, regex: `^(${vars.booleanPrefixes})` }
                 : undefined
         },
         {
             selector: 'variable',
             types: ['array'],
             format: ['camelCase', 'PascalCase', 'UPPER_CASE'],
-            custom: vars.arraySuffixes
-                ? { match: true, regex: `[${vars.arraySuffixes}]$` }
-                : undefined
+            custom: vars.arrayRegex
+                ? { match: true, regex: `^${vars.arrayRegex}$` }
+                : undefined,
         },
 
         // funcao
@@ -43,7 +43,7 @@ export function getConfigs(settings?: Partial<SettingsTP>): ConfigTP[] {    // e
             selector: 'function',
             format: ['camelCase'],
             custom: vars.functionPrefixes
-                ? { match: true, regex: `^[${vars.functionPrefixes}]` }
+                ? { match: true, regex: `^(${vars.functionPrefixes})` }
                 : undefined,
         },
 
@@ -59,7 +59,7 @@ export function getConfigs(settings?: Partial<SettingsTP>): ConfigTP[] {    // e
             format: ['camelCase'],
             leadingUnderscore: 'allow',
             custom: vars.booleanPrefixesLC
-                ? { match: true, regex: `^[${vars.booleanPrefixesLC}]` }
+                ? { match: true, regex: `^(${vars.booleanPrefixesLC})` }
                 : undefined
         },
         {
@@ -67,9 +67,9 @@ export function getConfigs(settings?: Partial<SettingsTP>): ConfigTP[] {    // e
             types: ['array'],
             format: ['camelCase'],
             leadingUnderscore: 'allow',
-            custom: vars.arraySuffixesLC
-                ? { match: true, regex: `[${vars.arraySuffixesLC}]$` }
-                : undefined
+            custom: vars.arrayRegexLC
+                ? { match: true, regex: `^${vars.arrayRegexLC}$` }
+                : undefined,
         },
 
         // propriedade
@@ -91,8 +91,8 @@ export function getConfigs(settings?: Partial<SettingsTP>): ConfigTP[] {    // e
             types: ['array'],
             format: ['camelCase'],
             leadingUnderscore: 'forbid',
-            custom: vars.arraySuffixesLC
-                ? { match: true, regex: `[${vars.arraySuffixesLC}]$` }
+            custom: vars.arrayRegexLC
+                ? { match: true, regex: `^${vars.arrayRegexLC}$` }
                 : undefined,
         },
         {   // ?? :boolean
@@ -101,7 +101,7 @@ export function getConfigs(settings?: Partial<SettingsTP>): ConfigTP[] {    // e
             format: ['camelCase'],
             leadingUnderscore: 'forbid',
             custom: vars.booleanPrefixesLC
-                ? { match: true, regex: `^[${vars.booleanPrefixesLC}]` }
+                ? { match: true, regex: `^(${vars.booleanPrefixesLC})` }
                 : undefined,
         },
 
@@ -125,8 +125,8 @@ export function getConfigs(settings?: Partial<SettingsTP>): ConfigTP[] {    // e
             modifiers: ['readonly'],
             format: ['camelCase', 'UPPER_CASE'],
             leadingUnderscore: 'forbid',
-            custom: vars.arraySuffixes
-                ? { match: true, regex: `[${vars.arraySuffixes}]$` }
+            custom: vars.arrayRegex
+                ? { match: true, regex: `^${vars.arrayRegex}$` }
                 : undefined,
         },
         {   // ?? static readonly :boolean
@@ -136,7 +136,7 @@ export function getConfigs(settings?: Partial<SettingsTP>): ConfigTP[] {    // e
             format: ['camelCase', 'UPPER_CASE'],
             leadingUnderscore: 'forbid',
             custom: vars.booleanPrefixes
-                ? { match: true, regex: `^[${vars.booleanPrefixes}]` }
+                ? { match: true, regex: `^(${vars.booleanPrefixes})` }
                 : undefined,
         },
 
@@ -145,7 +145,7 @@ export function getConfigs(settings?: Partial<SettingsTP>): ConfigTP[] {    // e
             selector: 'method',
             format: ['camelCase'],
             custom: vars.functionPrefixes
-                ? { match: true, regex: `^[${vars.functionPrefixes}]` }
+                ? { match: true, regex: `^(${vars.functionPrefixes})` }
                 : undefined,
         },
 
@@ -206,13 +206,13 @@ function getVars(generalSettings?: GeneralSettingsTP): VarsTP {
     if (booleanPrefixesUC)
         booleanPrefixes = booleanPrefixes ? `${booleanPrefixes}|${booleanPrefixesUC}` : booleanPrefixesUC
     
-    // Vetores concatenados
-    const arraySuffixesLC = getValueForRegexList('arraySuffixesLC', generalSettings)
-    const arraySuffixesUC = getValueForRegexList('arraySuffixesUC', generalSettings)
-
-    let arraySuffixes = arraySuffixesLC
-    if (arraySuffixesUC)
-        arraySuffixes = arraySuffixes ? `${arraySuffixes}|${arraySuffixesUC}` : arraySuffixesUC
+    // Vetores
+    const arraySuffixesLC = generalSettings?.arraySuffixesLC ?? DEFAULT_SETTINGS.arraySuffixesLC
+    const arraySuffixesUC = generalSettings?.arraySuffixesUC ?? DEFAULT_SETTINGS.arraySuffixesUC
+    
+    const arrayRegexLC = `(list|array|([a-z\\d]+([A-Z][a-z\\d]+)*(${arraySuffixesLC.join('|')})))`
+    const arrayRegexUC = `(LIST|ARRAY|([A-Z\\d]+(_[A-Z\\d]+)*(${arraySuffixesUC.map(suffix => suffix === 'S' ? suffix : `_${suffix}`).join('|')})))`
+    const arrayRegex = `${arrayRegexLC}|${arrayRegexUC}`
 
     // Generic Types
     const genericSuffixes = generalSettings?.typeSuffixesGenerics ?? DEFAULT_SETTINGS.typeSuffixesGenerics
@@ -233,9 +233,9 @@ function getVars(generalSettings?: GeneralSettingsTP): VarsTP {
         booleanPrefixesUC,
         booleanPrefixes,
 
-        arraySuffixesLC,
-        arraySuffixesUC,
-        arraySuffixes,
+        arrayRegexLC,
+        arrayRegexUC,
+        arrayRegex,
     }
 }
 
