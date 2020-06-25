@@ -199,16 +199,16 @@ export function getConfigs(settings?: Partial<SettingsTP>): ConfigTP[] {    // e
 function getVars(generalSettings?: GeneralSettingsTP): VarsTP {
 
     // Booleanos concatenados
-    const booleanPrefixesLC = getValueForRegexList('booleanPrefixesLC')
-    const booleanPrefixesUC = getValueForRegexList('booleanPrefixesUC')
+    const booleanPrefixesLC = getValueForRegexList('booleanPrefixesLC', generalSettings)
+    const booleanPrefixesUC = getValueForRegexList('booleanPrefixesUC', generalSettings)
     
     let booleanPrefixes = booleanPrefixesLC
     if (booleanPrefixesUC)
         booleanPrefixes = booleanPrefixes ? `${booleanPrefixes}|${booleanPrefixesUC}` : booleanPrefixesUC
     
     // Vetores concatenados
-    const arraySuffixesLC = getValueForRegexList('arraySuffixesLC')
-    const arraySuffixesUC = getValueForRegexList('arraySuffixesUC')
+    const arraySuffixesLC = getValueForRegexList('arraySuffixesLC', generalSettings)
+    const arraySuffixesUC = getValueForRegexList('arraySuffixesUC', generalSettings)
 
     let arraySuffixes = arraySuffixesLC
     if (arraySuffixesUC)
@@ -216,17 +216,17 @@ function getVars(generalSettings?: GeneralSettingsTP): VarsTP {
 
     // Generic Types
     const genericSuffixes = generalSettings?.typeSuffixesGenerics ?? DEFAULT_SETTINGS.typeSuffixesGenerics
-    const typeGenericsRegex = genericSuffixes.length ? `^([A-Z]|([A-Z][a-z\d]+)*[A-Z]?(${genericSuffixes.join('|')}))$` : `^[A-Z]$`
+    const typeGenericsRegex = genericSuffixes.length ? `^([A-Z]|([A-Z][a-z\\d]+)*[A-Z]?(${genericSuffixes.join('|')}))$` : undefined
 
     return {
         
-        interfacePrefixes: getValueForArrayList('interfacePrefixes'),
+        interfacePrefixes: getValueForArrayList('interfacePrefixes', generalSettings),
         
-        enumSuffixes: getValueForArrayList('interfacePrefixes'),
-        typeSuffixes: getValueForArrayList('typeSuffixes'),
-        classSuffixes: getValueForArrayList('classSuffixes'),
+        enumSuffixes: getValueForArrayList('enumSuffixes', generalSettings),
+        typeSuffixes: getValueForArrayList('typeSuffixes', generalSettings),
+        classSuffixes: getValueForArrayList('classSuffixes', generalSettings),
         
-        functionPrefixes: getValueForRegexList('functionPrefixes'),
+        functionPrefixes: getValueForRegexList('functionPrefixes', generalSettings),
         typeGenericsRegex,
 
         booleanPrefixesLC,

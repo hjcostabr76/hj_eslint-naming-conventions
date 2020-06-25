@@ -15,27 +15,25 @@ export const DEFAULT_SETTINGS: Required<GeneralSettingsTP> = {
     booleanPrefixesLC: ['is', 'are', 'should', 'must', 'can', 'have', 'has', 'did', 'dont', 'will', 'enable', 'require', 'force'],
 
     functionPrefixes: [
-
-        'get',
-        'set',
-
         'add',
-        'save',
-        'update',
-        'find',
-        'search',
-        'delete',
-        'remove',
-
-        'check',
-        'verify',
-
-        'is',
-        'enable',
-        'grant',
-
         'bond',
+        'check',
+        'delete',
+        'enable',
+        'find',
+        'get',
+        'grant',
         'handle',
-        'parse'
+        'is',
+        'parse',
+        'remove',
+        'run',
+        'save',
+        'search',
+        'send',
+        'set',
+        'update',
+        'verify',
+        'warn',
     ],
 }
