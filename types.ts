@@ -13,7 +13,8 @@ export type SettingsTP = {
 
 export type VarsTP =
     & Required<Omit<GeneralForArrayTP, 'typeSuffixesGenerics'>>
-    & Record<keyof GeneralForRegexTP | 'typeGenericsRegex' | 'arraySuffixes' | 'booleanPrefixes', OrUndefinedTP<string>>
+    & Record<keyof Omit<GeneralForRegexTP, 'arraySuffixesLC' | 'arraySuffixesUC'>, OrUndefinedTP<string>>
+    & Record<'typeGenericsRegex' | 'booleanPrefixes' | 'arrayRegex' | 'arrayRegexUC' | 'arrayRegexLC', OrUndefinedTP<string>>
 
 export type GeneralSettingsTP = Partial<Record<keyof GeneralForRegexTP | keyof GeneralForArrayTP, string[]>>
 
