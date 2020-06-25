@@ -4,7 +4,7 @@
     "author": "hjcostabr76 <hjcosta.dev@gmail.com>",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
-    "version": "1.0.2",
+    "version": "1.1.1",
     "prepublish": "yarn build",
     "scripts": {
         "test": "echo \"Error: So far, not good... There ain't no tests yet :(\"",

@@ -216,7 +216,7 @@ function getVars(generalSettings?: GeneralSettingsTP): VarsTP {
 
     // Generic Types
     const genericSuffixes = generalSettings?.typeSuffixesGenerics ?? DEFAULT_SETTINGS.typeSuffixesGenerics
-    const typeGenericsRegex = genericSuffixes.length ? `^([A-Z]|([A-Z][a-z\d]+)*[A-Z]?[${genericSuffixes.join('|')}])$` : `^[A-Z]$`
+    const typeGenericsRegex = genericSuffixes.length ? `^([A-Z]|([A-Z][a-z\d]+)*[A-Z]?(${genericSuffixes.join('|')}))$` : `^[A-Z]$`
 
     return {
         
