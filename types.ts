@@ -11,7 +11,10 @@ export type SettingsTP = {
     specific?: ConfigTP[],
 }
 
-export type VarsTP = Required<GeneralForArrayTP> & Record<keyof GeneralForRegexTP | 'arraySuffixes' | 'booleanPrefixes', OrUndefinedTP<string>>
+export type VarsTP =
+    & Required<Omit<GeneralForArrayTP, 'typeSuffixesGenerics'>>
+    & Record<keyof GeneralForRegexTP | 'typeGenericsRegex' | 'arraySuffixes' | 'booleanPrefixes', OrUndefinedTP<string>>
+
 export type GeneralSettingsTP = Partial<Record<keyof GeneralForRegexTP | keyof GeneralForArrayTP, string[]>>
 
 // General settings configured as regex

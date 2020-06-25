@@ -184,7 +184,9 @@ export function getConfigs(settings?: Partial<SettingsTP>): ConfigTP[] {    // e
         {
             selector: 'typeParameter',
             format: ['PascalCase'],
-            suffix: vars.typeSuffixesGenerics,
+            custom: vars.typeGenericsRegex
+                ? { match: true, regex: vars.typeGenericsRegex }
+                : undefined,
             leadingUnderscore: 'forbid'
         },
 
@@ -196,14 +198,7 @@ export function getConfigs(settings?: Partial<SettingsTP>): ConfigTP[] {    // e
 /** Processa & retorna variaveis utilizadas na configuracao da regra. */
 function getVars(generalSettings?: GeneralSettingsTP): VarsTP {
 
-    const getValueForArrayList = (key: keyof GeneralForArrayTP): string[] => (generalSettings?.[key] ?? DEFAULT_SETTINGS[key])
-
-    const getValueForRegexList = (key: keyof GeneralForRegexTP): string | undefined => {
-        const list = generalSettings?.[key] ?? DEFAULT_SETTINGS[key]
-        if (list.length)
-            return `${list.join('|')}`
-    }
-
+    // Booleanos concatenados
     const booleanPrefixesLC = getValueForRegexList('booleanPrefixesLC')
     const booleanPrefixesUC = getValueForRegexList('booleanPrefixesUC')
     
@@ -211,12 +206,17 @@ function getVars(generalSettings?: GeneralSettingsTP): VarsTP {
     if (booleanPrefixesUC)
         booleanPrefixes = booleanPrefixes ? `${booleanPrefixes}|${booleanPrefixesUC}` : booleanPrefixesUC
     
+    // Vetores concatenados
     const arraySuffixesLC = getValueForRegexList('arraySuffixesLC')
     const arraySuffixesUC = getValueForRegexList('arraySuffixesUC')
 
     let arraySuffixes = arraySuffixesLC
     if (arraySuffixesUC)
         arraySuffixes = arraySuffixes ? `${arraySuffixes}|${arraySuffixesUC}` : arraySuffixesUC
+
+    // Generic Types
+    const genericSuffixes = generalSettings?.typeSuffixesGenerics ?? DEFAULT_SETTINGS.typeSuffixesGenerics
+    const typeGenericsRegex = genericSuffixes.length ? `^([A-Z]|([A-Z][a-z\d]+)*[A-Z]?[${genericSuffixes.join('|')}])$` : `^[A-Z]$`
 
     return {
         
@@ -225,9 +225,9 @@ function getVars(generalSettings?: GeneralSettingsTP): VarsTP {
         enumSuffixes: getValueForArrayList('interfacePrefixes'),
         typeSuffixes: getValueForArrayList('typeSuffixes'),
         classSuffixes: getValueForArrayList('classSuffixes'),
-        typeSuffixesGenerics: getValueForArrayList('typeSuffixesGenerics'),
         
         functionPrefixes: getValueForRegexList('functionPrefixes'),
+        typeGenericsRegex,
 
         booleanPrefixesLC,
         booleanPrefixesUC,
@@ -237,4 +237,15 @@ function getVars(generalSettings?: GeneralSettingsTP): VarsTP {
         arraySuffixesUC,
         arraySuffixes,
     }
+}
+
+
+function getValueForArrayList(key: keyof GeneralForArrayTP, generalSettings?: GeneralSettingsTP): string[] {
+    return generalSettings?.[key] ?? DEFAULT_SETTINGS[key]
+}
+
+function getValueForRegexList(key: keyof GeneralForRegexTP, generalSettings?: GeneralSettingsTP): string | undefined {
+    const list = generalSettings?.[key] ?? DEFAULT_SETTINGS[key]
+    if (list.length)
+        return `${list.join('|')}`
 }
